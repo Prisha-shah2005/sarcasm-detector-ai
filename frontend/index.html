@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Sarcasm Detector</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#1e293b;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+background:#0f172a;
+padding:40px;
+border-radius:10px;
+width:400px;
+text-align:center;
+}
+
+textarea{
+width:100%;
+height:100px;
+padding:10px;
+border-radius:5px;
+border:none;
+margin-top:10px;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+background:#22c55e;
+border:none;
+color:white;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+.result{
+margin-top:20px;
+font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Sarcasm Detector</h2>
+
+<p>Enter a sentence</p>
+
+<textarea id="textInput"></textarea>
+
+<br>
+
+<button onclick="analyze()">Analyze</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+async function analyze(){
+
+let text = document.getElementById("textInput").value;
+
+let response = await fetch("/predict",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({text:text})
+});
+
+let data = await response.json();
+
+document.getElementById("result").innerHTML =
+"Prediction: "+data.prediction+"<br>Confidence: "+data.confidence;
+
+}
+
+</script>
+
+</body>
+
+</html>
